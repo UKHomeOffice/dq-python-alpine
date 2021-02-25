@@ -8,7 +8,7 @@ platform:
   arch: amd64
 
 steps:
-- name: build
+- name: build-test-dev
   pull: if-not-exists
   image: plugins/docker
   settings:
@@ -18,13 +18,35 @@ steps:
     repo: quay.io/ukhomeofficedigital/dq-python-alpine
     tags:
     - ${DRONE_COMMIT_SHA}
-    - ${DRONE_BUILD_NUMBER}
+    - b${DRONE_BUILD_NUMBER}-test
   environment:
     DOCKER_PASSWORD:
       from_secret: docker_password
     DOCKER_USERNAME:
       from_secret: docker_username
   when:
+    event:
+    - push
+
+- name: build-master
+  pull: if-not-exists
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile
+    force_tag: true
+    registry: quay.io
+    repo: quay.io/ukhomeofficedigital/dq-python-alpine
+    tags:
+    - ${DRONE_COMMIT_SHA}
+    - b${DRONE_BUILD_NUMBER}
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+    DOCKER_USERNAME:
+      from_secret: docker_username
+  when:
+    branch:
+    - master
     event:
     - push
 
