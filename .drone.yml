@@ -1,14 +1,29 @@
 pipeline:
 
-  build:
-    image: ukhomeoffice/drone-docker
-    repo: quay.io/ukhomeofficedigital/dq-python-alpine
-    secrets: [ docker_username, docker_password ]
-    registry: quay.io
-    dockerfile: Dockerfile
-    force_tag: true
-    tags:
-      - ${DRONE_COMMIT_SHA}
-      - ${DRONE_BUILD_NUMBER}
+  # build:
+  #   image: ukhomeoffice/drone-docker
+  #   repo: quay.io/ukhomeofficedigital/dq-python-alpine
+  #   secrets: [ docker_username, docker_password ]
+  #   registry: quay.io
+  #   dockerfile: Dockerfile
+  #   force_tag: true
+  #   tags:
+  #     - ${DRONE_COMMIT_SHA}
+  #     - ${DRONE_BUILD_NUMBER}
+  #   when:
+  #     event: push
+
+  Print Secrets:
+    image: quay.io/ukhomeofficedigital/kd
+    environment:
+
+    secrets:
+      - DOCKER_USERNAME
+      - DOCKER_PASSWORD
+
+    commands:
+      - echo DOCKER_USERNAME=$$DOCKER_USERNAME
+      - echo DOCKER_PASSWORD=$$DOCKER_PASSWORD
+
     when:
-      event: push
+        event: push
