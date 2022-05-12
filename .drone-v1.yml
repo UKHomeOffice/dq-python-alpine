@@ -8,7 +8,7 @@ platform:
   arch: amd64
 
 steps:
-- name: build-test-dev
+- name: build
   pull: if-not-exists
   image: plugins/docker
   settings:
@@ -18,7 +18,7 @@ steps:
     repo: quay.io/ukhomeofficedigital/dq-python-alpine
     tags:
     - ${DRONE_COMMIT_SHA}
-    - b${DRONE_BUILD_NUMBER}-test
+    - dev-${DRONE_BUILD_NUMBER}
   environment:
     DOCKER_PASSWORD:
       from_secret: docker_password
@@ -32,7 +32,7 @@ steps:
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/trivyscanner:master
   commands:
-  - trivy image --ignore-unfixed --exit-code 1 --no-progress quay.io/ukhomeofficedigital/dq-python-alpine:b${DRONE_BUILD_NUMBER}-test
+  - trivy image --ignore-unfixed --exit-code 1 --no-progress quay.io/ukhomeofficedigital/dq-python-alpine:dev-${DRONE_BUILD_NUMBER}
   when:
     branch:
       exclude:
@@ -40,7 +40,7 @@ steps:
     event:
     - push
 
-- name: build-master
+- name: build-latest
   pull: if-not-exists
   image: plugins/docker
   settings:
@@ -49,8 +49,8 @@ steps:
     registry: quay.io
     repo: quay.io/ukhomeofficedigital/dq-python-alpine
     tags:
-    - ${DRONE_COMMIT_SHA}
     - b${DRONE_BUILD_NUMBER}
+    - latest
   environment:
     DOCKER_PASSWORD:
       from_secret: docker_password
