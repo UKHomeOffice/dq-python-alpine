@@ -51,6 +51,7 @@ steps:
     tags:
     - b${DRONE_BUILD_NUMBER}
     - latest
+    - gcc-musl
   environment:
     DOCKER_PASSWORD:
       from_secret: docker_password
