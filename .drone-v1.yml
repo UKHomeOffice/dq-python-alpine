@@ -49,8 +49,6 @@ steps:
     registry: quay.io
     repo: quay.io/ukhomeofficedigital/dq-python-alpine
     tags:
-    - b${DRONE_BUILD_NUMBER}
-    - latest
     - gcc-musl
   environment:
     DOCKER_PASSWORD:
@@ -59,7 +57,7 @@ steps:
       from_secret: docker_username
   when:
     branch:
-    - master
+    - gcc-musl
     event:
     - push
 
