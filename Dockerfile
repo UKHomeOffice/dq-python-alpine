@@ -1,7 +1,6 @@
-FROM python:3.11-alpine3.17
+FROM python:3.11-alpine
 
-
-RUN apk update --quiet \
-  && apk upgrade libcrypto3 libssl3 --quiet \
-    && apk upgrade --quiet
-
+RUN apk add uchardet gcc g++ musl-dev --quiet
+RUN apk -U upgrade libcrypto3 libssl3 --quiet
+RUN pip install --no-cache-dir --upgrade pip==23.3
+RUN pip install Cython
