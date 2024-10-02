@@ -40,6 +40,38 @@ steps:
     event:
     - push
 
+- name: build-gcc-musl-dev
+  pull: if-not-exists
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile
+    force_tag: true
+    registry: quay.io
+    repo: quay.io/ukhomeofficedigital/dq-python-alpine
+    tags:
+    - ${DRONE_COMMIT_SHA}
+    - gcc-musl-dev-${DRONE_BUILD_NUMBER}
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+    DOCKER_USERNAME:
+      from_secret: docker_username
+  when:
+    event:
+    - push
+
+- name: trivy_scan-musl-dev
+  pull: if-not-exists
+  image: quay.io/ukhomeofficedigital/trivyscanner:master
+  commands:
+  - trivy image --ignore-unfixed --exit-code 1 --no-progress quay.io/ukhomeofficedigital/dq-python-alpine:gcc-musl-dev-${DRONE_BUILD_NUMBER}
+  when:
+    branch:
+      exclude:
+      - master
+    event:
+    - push
+
 - name: build-latest
   pull: if-not-exists
   image: plugins/docker
@@ -51,6 +83,27 @@ steps:
     tags:
     - b${DRONE_BUILD_NUMBER}
     - latest
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+    DOCKER_USERNAME:
+      from_secret: docker_username
+  when:
+    branch:
+    - master
+    event:
+    - push
+
+- name: build-gcc-musl
+  pull: if-not-exists
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile-gcc-musl
+    force_tag: true
+    registry: quay.io
+    repo: quay.io/ukhomeofficedigital/dq-python-alpine
+    tags:
+    - b-gcc-musl-${DRONE_BUILD_NUMBER}
   environment:
     DOCKER_PASSWORD:
       from_secret: docker_password

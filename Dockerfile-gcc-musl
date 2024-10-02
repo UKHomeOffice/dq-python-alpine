@@ -1,0 +1,12 @@
+FROM python:3.11-alpine3.20
+
+RUN pip install Cython
+RUN pip install --no-cache-dir --upgrade pip==23.3
+
+RUN apk update --quiet \
+    && apk -U upgrade libcrypto3 libssl3 --quiet \
+    && apk add uchardet gcc g++ musl-dev --quiet \
+    && apk upgrade --quiet
+
+RUN pip install -U setuptools==70.0.0 \
+    && pip install --upgrade pip \
