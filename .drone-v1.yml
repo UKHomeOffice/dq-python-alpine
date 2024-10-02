@@ -62,6 +62,27 @@ steps:
     event:
     - push
 
+- name: build-gcc-musl
+  pull: if-not-exists
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile-gcc-musl
+    force_tag: true
+    registry: quay.io
+    repo: quay.io/ukhomeofficedigital/dq-python-alpine
+    tags:
+    - b-gcc-musl-${DRONE_BUILD_NUMBER}
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+    DOCKER_USERNAME:
+      from_secret: docker_username
+  when:
+    branch:
+    - master
+    event:
+    - push
+
 services:
   - name: docker
     image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
