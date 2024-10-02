@@ -28,6 +28,17 @@ steps:
     event:
     - push
 
+- name: trivy_scan
+  pull: if-not-exists
+  image: quay.io/ukhomeofficedigital/trivyscanner:master
+  commands:
+  - trivy image --ignore-unfixed --exit-code 1 --no-progress quay.io/ukhomeofficedigital/dq-python-alpine:dev-${DRONE_BUILD_NUMBER}
+  when:
+    branch:
+      exclude:
+      - master
+    event:
+    - push
 
 - name: build-gcc-musl-dev
   pull: if-not-exists
@@ -54,18 +65,6 @@ steps:
   image: quay.io/ukhomeofficedigital/trivyscanner:master
   commands:
   - trivy image --ignore-unfixed --exit-code 1 --no-progress quay.io/ukhomeofficedigital/dq-python-alpine:gcc-musl-dev-${DRONE_BUILD_NUMBER}
-  when:
-    branch:
-      exclude:
-      - master
-    event:
-    - push
-
-- name: trivy_scan
-  pull: if-not-exists
-  image: quay.io/ukhomeofficedigital/trivyscanner:master
-  commands:
-  - trivy image --ignore-unfixed --exit-code 1 --no-progress quay.io/ukhomeofficedigital/dq-python-alpine:dev-${DRONE_BUILD_NUMBER}
   when:
     branch:
       exclude:
