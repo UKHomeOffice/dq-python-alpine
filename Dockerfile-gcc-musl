@@ -8,3 +8,4 @@ RUN apk update --quiet \
     && apk add uchardet gcc g++ musl-dev --quiet \
     && apk upgrade --quiet
 
+RUN pip install -U setuptools==70.0.0
