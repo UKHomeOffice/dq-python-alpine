@@ -1,4 +1,4 @@
-FROM python:3.11-alpine3.20
+FROM python:3.11-alpine3.17
 
 RUN pip install Cython
 RUN pip install --no-cache-dir --upgrade pip==23.3
