@@ -5,5 +5,5 @@ RUN apk update --quiet \
     && apk upgrade --quiet
 
 
-RUN pip install -U setuptools==70.0.0 \
+RUN pip install -U setuptools==78.1.1 \
     && pip install --upgrade pip \
