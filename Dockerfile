@@ -7,3 +7,4 @@ RUN apk update --quiet \
 
 RUN pip install -U setuptools==78.1.1 \
     && pip install --upgrade pip \
+RUN python -m pip install --upgrade pip==25.3 "urllib3>=2.6.0"
