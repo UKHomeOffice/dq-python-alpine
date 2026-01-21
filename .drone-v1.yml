@@ -38,7 +38,7 @@ steps:
       exclude:
       - master
     event:
-    - push
+    - cron
 
 - name: build-gcc-musl-dev
   pull: if-not-exists
