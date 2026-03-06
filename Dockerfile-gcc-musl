@@ -2,7 +2,7 @@ FROM python:3.11-alpine3.17
 
 RUN pip install Cython
 
-RUN pip install --no-cache-dir --upgrade pip==25.3
+RUN pip install --no-cache-dir --upgrade pip==26.0
 
 RUN apk update --quiet \
     && apk -U upgrade libcrypto3 libssl3 --quiet \
@@ -11,3 +11,4 @@ RUN apk update --quiet \
 
 RUN pip install -U setuptools \
     && pip install --upgrade pip \
+    && pip install --no-cache-dir --upgrade --force-reinstall "wheel==0.46.2"
