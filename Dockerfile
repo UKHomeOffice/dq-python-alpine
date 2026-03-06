@@ -5,5 +5,6 @@ RUN apk update --quiet \
     && apk upgrade --quiet
 
 
-RUN pip install -U setuptools \
-    && pip install --upgrade pip \
+RUN pip install --no-cache-dir -U pip \
+    && pip install --no-cache-dir --upgrade --force-reinstall "wheel==0.46.2" setuptools \
+    && pip show wheel
