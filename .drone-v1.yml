@@ -19,6 +19,8 @@ steps:
     tags:
     - ${DRONE_COMMIT_SHA}
     - dev-${DRONE_BUILD_NUMBER}
+    pull_image: true     # always pull base image
+    no_cache: true       # disable layer cach
   environment:
     DOCKER_PASSWORD:
       from_secret: docker_password
@@ -51,6 +53,8 @@ steps:
     tags:
     - ${DRONE_COMMIT_SHA}
     - gcc-musl-dev-${DRONE_BUILD_NUMBER}
+    pull_image: true     # always pull base image
+    no_cache: true       # disable layer cach
   environment:
     DOCKER_PASSWORD:
       from_secret: docker_password
@@ -83,6 +87,8 @@ steps:
     tags:
     - b${DRONE_BUILD_NUMBER}
     - latest
+    pull_image: true     # always pull base image
+    no_cache: true       # disable layer cach
   environment:
     DOCKER_PASSWORD:
       from_secret: docker_password
@@ -104,6 +110,9 @@ steps:
     repo: quay.io/ukhomeofficedigital/dq-python-alpine
     tags:
     - b-gcc-musl-${DRONE_BUILD_NUMBER}
+    pull_image: true     # always pull base image
+    no_cache: true       # disable layer cach
+
   environment:
     DOCKER_PASSWORD:
       from_secret: docker_password
